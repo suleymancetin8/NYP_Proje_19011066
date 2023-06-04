@@ -9,7 +9,7 @@ public class MultiplicationTableApp {
     private static final int DEFAULT_QUESTION_COUNT = 10;
     private static final int DEFAULT_MAX_OPERAND = 8;
     private static final int DEFAULT_TIME_LIMIT = 60;
-    private static final int MAX_SCORE = 60;
+    private static final int MAX_SCORE_PER_QUESTION = 60;
 
     private JFrame frame;
     private JPanel loginPanel;
@@ -194,12 +194,13 @@ public class MultiplicationTableApp {
     private void startQuiz(JLabel childInfoLabel, JLabel scoreLabel) {
         int currentScore = 0;
         int questionNumber = 1;
-        long startTime = System.currentTimeMillis();
 
         while (questionNumber <= questionCount) {
             int operand1 = (int) (Math.random() * maxOperand) + 1;
             int operand2 = (int) (Math.random() * maxOperand) + 1;
             int correctAnswer = operand1 * operand2;
+
+            long startTime = System.currentTimeMillis();
 
             String userAnswer = JOptionPane.showInputDialog(
                     frame,
@@ -208,12 +209,14 @@ public class MultiplicationTableApp {
                     JOptionPane.QUESTION_MESSAGE
             );
 
+            long elapsedTime = System.currentTimeMillis() - startTime;
+
             if (userAnswer != null) {
-                long elapsedTime = System.currentTimeMillis() - startTime;
                 int timeScore = calculateTimeScore(elapsedTime);
+                int questionScore = calculateQuestionScore(timeScore, elapsedTime);
 
                 if (userAnswer.equals(Integer.toString(correctAnswer))) {
-                    currentScore += timeScore;
+                    currentScore += questionScore;
                 }
 
                 questionNumber++;
@@ -222,7 +225,7 @@ public class MultiplicationTableApp {
             }
         }
 
-        int totalScore = calculateTotalScore(currentScore, questionCount);
+        int totalScore = currentScore;
 
         if (totalScore > bestScore) {
             bestScore = totalScore;
@@ -233,18 +236,18 @@ public class MultiplicationTableApp {
     }
 
     private int calculateTimeScore(long elapsedTime) {
-        if (elapsedTime <= 1000) {
-            return MAX_SCORE;
-        } else if (elapsedTime >= timeLimit * 1000) {
-            return 0;
+        if (elapsedTime <= timeLimit * 1000) {
+            double remainingTime = (double) (timeLimit * 1000 - elapsedTime) / 1000;
+            return (int) (remainingTime / timeLimit * MAX_SCORE_PER_QUESTION);
         } else {
-            double percentage = (double) (timeLimit * 1000 - elapsedTime) / (timeLimit * 1000);
-            return (int) (percentage * MAX_SCORE);
+            return 0;
         }
     }
 
-    private int calculateTotalScore(int currentScore, int questionCount) {
-        return (int) ((double) currentScore / (MAX_SCORE * questionCount) * MAX_SCORE);
+    private int calculateQuestionScore(int timeScore, long elapsedTime) {
+        int maxTimeScore = (timeLimit / 2) * MAX_SCORE_PER_QUESTION;
+        double percentage = (double) timeScore / maxTimeScore;
+        return (int) (percentage * MAX_SCORE_PER_QUESTION);
     }
 
     public static void main(String[] args) {
