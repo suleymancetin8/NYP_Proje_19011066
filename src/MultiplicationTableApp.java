@@ -134,6 +134,7 @@ public class MultiplicationTableApp {
 
         JPanel questionPanel = new JPanel();
         JLabel questionLabel = new JLabel("Question:");
+        JLabel questionText = new JLabel();
         JTextField answerField = new JTextField(5);
         JButton submitButton = new JButton("Submit");
         JLabel counterLabel = new JLabel("Time left: 60 seconds");
@@ -187,10 +188,16 @@ public class MultiplicationTableApp {
                 }
 
                 startTime = System.currentTimeMillis();
+
+                // Display the next question
+                int nextOperandA = (int) (Math.random() * operandA) + 1;
+                int nextOperandB = (int) (Math.random() * operandB) + 1;
+                questionText.setText(nextOperandA + " x " + nextOperandB);
             }
         });
 
         questionPanel.add(questionLabel);
+        questionPanel.add(questionText);
         questionPanel.add(answerField);
         questionPanel.add(submitButton);
         questionPanel.add(counterLabel);
@@ -198,11 +205,16 @@ public class MultiplicationTableApp {
         questionPanel.add(resultLabel);
 
         childPanel.add(questionPanel, BorderLayout.CENTER);
+
+        // Initial question display
+        int initialOperandA = (int) (Math.random() * operandA) + 1;
+        int initialOperandB = (int) (Math.random() * operandB) + 1;
+        questionText.setText(initialOperandA + " x " + initialOperandB);
     }
 
     private void startQuiz(String childUsername) {
         Child child = children.get(childUsername);
-        JLabel counterLabel = (JLabel) ((JPanel) childPanel.getComponent(0)).getComponent(3);
+        JLabel counterLabel = (JLabel) ((JPanel) childPanel.getComponent(0)).getComponent(4);
         Thread timerThread = new Thread(new Runnable() {
             private int timeLeft = 60;
 
