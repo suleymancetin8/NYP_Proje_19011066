@@ -233,6 +233,16 @@ public class MultiplicationLearningApp {
             if (currentQuestionTime == 0) {
                 JOptionPane.showMessageDialog(frame, "Time's up!");
                 questionsAnswered++;
+                if (questionsAnswered == numQuestions) {
+                    if (totalScore > currentUser.getBestScore()) {
+                        currentUser.setBestScore(totalScore);
+                    }
+                    questionsAnswered = 0;
+                    totalScore = 0;
+                    JOptionPane.showMessageDialog(frame, "You finished all the questions! Your total score is: " + currentUser.getBestScore());
+                    showLoginScreen();
+                    return;
+                }
                 showChildScreen();
             }
         });
@@ -248,6 +258,16 @@ public class MultiplicationLearningApp {
             }
 
             questionsAnswered++;
+            if (questionsAnswered == numQuestions) {
+                if (totalScore > currentUser.getBestScore()) {
+                    currentUser.setBestScore(totalScore);
+                }
+                questionsAnswered = 0;
+                totalScore = 0;
+                JOptionPane.showMessageDialog(frame, "You finished all the questions! Your total score is: " + currentUser.getBestScore());
+                showLoginScreen();
+                return;
+            }
             showChildScreen();
         });
 
