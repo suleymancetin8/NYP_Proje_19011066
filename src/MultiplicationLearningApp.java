@@ -72,18 +72,19 @@ public class MultiplicationLearningApp {
     private void showParentScreen() {
         frame.getContentPane().removeAll();
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 2));
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JButton addChildButton = new JButton("Add Child");
-        addChildButton.addActionListener(e -> showAddChildScreen());
-
-        JButton editChildButton = new JButton("Edit Child");
-        editChildButton.addActionListener(e -> showEditChildScreen());
-
-        JTextField maxAField = new JTextField(String.valueOf(maxA));
-        JTextField maxBField = new JTextField(String.valueOf(maxB));
-        JTextField numQuestionsField = new JTextField(String.valueOf(numQuestions));
+        JPanel settingsPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JTextField maxAField = new JTextField(Integer.toString(maxA));
+        JTextField maxBField = new JTextField(Integer.toString(maxB));
+        JTextField numQuestionsField = new JTextField(Integer.toString(numQuestions));
+        settingsPanel.add(new JLabel("Max A:"));
+        settingsPanel.add(maxAField);
+        settingsPanel.add(new JLabel("Max B:"));
+        settingsPanel.add(maxBField);
+        settingsPanel.add(new JLabel("Number of questions:"));
+        settingsPanel.add(numQuestionsField);
 
         JButton saveSettingsButton = new JButton("Save Settings");
         saveSettingsButton.addActionListener(e -> {
@@ -92,21 +93,23 @@ public class MultiplicationLearningApp {
             numQuestions = Integer.parseInt(numQuestionsField.getText());
         });
 
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        JButton addChildButton = new JButton("Add Child");
+        addChildButton.addActionListener(e -> showAddChildScreen());
+        JButton editChildButton = new JButton("Edit Child");
+        editChildButton.addActionListener(e -> showEditChildScreen());
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> showLoginScreen());
 
-        panel.add(addChildButton);
-        panel.add(editChildButton);
-        panel.add(new JLabel("Max A:"));
-        panel.add(maxAField);
-        panel.add(new JLabel("Max B:"));
-        panel.add(maxBField);
-        panel.add(new JLabel("Number of Questions:"));
-        panel.add(numQuestionsField);
-        panel.add(saveSettingsButton);
-        panel.add(logoutButton);
+        buttonPanel.add(addChildButton);
+        buttonPanel.add(editChildButton);
+        buttonPanel.add(logoutButton);
 
-        frame.getContentPane().add(panel);
+        mainPanel.add(settingsPanel, BorderLayout.CENTER);
+        mainPanel.add(saveSettingsButton, BorderLayout.SOUTH);
+        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+
+        frame.getContentPane().add(mainPanel);
         frame.revalidate();
         frame.repaint();
     }
