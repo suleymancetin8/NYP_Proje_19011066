@@ -30,7 +30,18 @@ public class MultiplicationLearningApp {
     private void showLoginScreen() {
         frame.getContentPane().removeAll();
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(255, 105, 180),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         panel.setLayout(new GridLayout(3, 2));
 
         JTextField usernameField = new JTextField();
@@ -72,8 +83,18 @@ public class MultiplicationLearningApp {
     private void showParentScreen() {
         frame.getContentPane().removeAll();
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel mainPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(255, 105, 180),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel settingsPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         JTextField maxAField = new JTextField(Integer.toString(maxA));
@@ -123,8 +144,18 @@ public class MultiplicationLearningApp {
     private void showAddChildScreen() {
         frame.getContentPane().removeAll();
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(255, 105, 180),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };        panel.setLayout(new GridLayout(3, 2));
 
         JTextField usernameField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
@@ -157,7 +188,18 @@ public class MultiplicationLearningApp {
     private void showEditChildScreen() {
         frame.getContentPane().removeAll();
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(255, 105, 180),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         for (User user : users) {
@@ -216,7 +258,18 @@ public class MultiplicationLearningApp {
             return;
         }
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(255, 105, 180),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         panel.setLayout(new GridLayout(3, 2));
 
         Random random = new Random();
