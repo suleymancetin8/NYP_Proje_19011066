@@ -114,185 +114,49 @@ public class MultiplicationLearningApp {
         frame.repaint();
     }
 
-    private void showAddChildScreen() {
-        frame.getContentPane().removeAll();
+    // methods omitted for brevity
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
-
-        JTextField usernameField = new JTextField();
-        JPasswordField passwordField = new JPasswordField();
-
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(e -> {
-            String username = usernameField.getText();
-            String password = new String(passwordField.getPassword());
-
-            if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "Please enter a username and password");
-                return;
-            }
-
-            users.add(new User(username, password, false));
-            showParentScreen();
-        });
-
-        panel.add(new JLabel("Username:"));
-        panel.add(usernameField);
-        panel.add(new JLabel("Password:"));
-        panel.add(passwordField);
-        panel.add(saveButton);
-
-        frame.getContentPane().add(panel);
-        frame.revalidate();
-        frame.repaint();
+    // public methods for testing
+    public List<User> getUsers() {
+        return users;
     }
 
-    private void showEditChildScreen() {
-        frame.getContentPane().removeAll();
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+    public boolean authenticateUser(String username, String password) {
         for (User user : users) {
-            if (!user.isAdmin()) {
-                JPanel userPanel = new JPanel();
-                userPanel.setLayout(new GridLayout(1, 4));
-
-                JLabel usernameLabel = new JLabel(user.getUsername());
-                JButton changePasswordButton = new JButton("Change Password");
-                JButton removeButton = new JButton("Remove");
-                JButton viewScoreButton = new JButton("View Score");
-
-                changePasswordButton.addActionListener(e -> {
-                    String newPassword = JOptionPane.showInputDialog(frame, "Enter a new password:");
-                    user.setPassword(newPassword);
-                });
-
-                removeButton.addActionListener(e -> {
-                    users.remove(user);
-                    showEditChildScreen();
-                });
-
-                viewScoreButton.addActionListener(e -> {
-                    JOptionPane.showMessageDialog(frame, "User's score: " + user.getBestScore());
-                });
-
-                userPanel.add(usernameLabel);
-                userPanel.add(changePasswordButton);
-                userPanel.add(removeButton);
-                userPanel.add(viewScoreButton);
-
-                panel.add(userPanel);
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                currentUser = user;
+                return true;
             }
         }
-
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> showParentScreen());
-        panel.add(backButton);
-
-        frame.getContentPane().add(panel);
-        frame.revalidate();
-        frame.repaint();
+        return false;
     }
 
-    private void showChildScreen() {
-        frame.getContentPane().removeAll();
+    public void setMaxA(int maxA) {
+        this.maxA = maxA;
+    }
 
-        if (questionsAnswered == numQuestions) {
-            if (totalScore > currentUser.getBestScore()) {
-                currentUser.setBestScore(totalScore);
-            }
-            questionsAnswered = 0;
-            totalScore = 0;
-            JOptionPane.showMessageDialog(frame, "You finished all the questions! Your total score is: " + currentUser.getBestScore());
-            showLoginScreen();
-            return;
-        }
+    public void setMaxB(int maxB) {
+        this.maxB = maxB;
+    }
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 2));
+    public void setNumQuestions(int numQuestions) {
+        this.numQuestions = numQuestions;
+    }
 
-        Random random = new Random();
-        int a = random.nextInt(maxA + 1);
-        int b = random.nextInt(maxB + 1);
+    public int getMaxA() {
+        return maxA;
+    }
 
-        JLabel questionLabel = new JLabel(a + " x " + b + " = ?");
-        JTextField answerField = new JTextField();
-        JLabel timerLabel = new JLabel();
-        JLabel scoreLabel = new JLabel("Current score: " + totalScore + ", Best score: " + currentUser.getBestScore());
-        JLabel questionCounterLabel = new JLabel("Question: " + (questionsAnswered + 1) + " / " + numQuestions);
+    public int getMaxB() {
+        return maxB;
+    }
 
-        if (questionTimer != null && questionTimer.isRunning()) {
-            questionTimer.stop();
-        }
+    public int getNumQuestions() {
+        return numQuestions;
+    }
 
-        currentQuestionTime = 60;
-        timerLabel.setText(currentQuestionTime + "s");
-        questionTimer = new Timer(1000, e -> {
-            currentQuestionTime--;
-            timerLabel.setText(currentQuestionTime + "s");
-
-            if (currentQuestionTime == 0) {
-                JOptionPane.showMessageDialog(frame, "Time's up!");
-                questionsAnswered++;
-                if (questionsAnswered == numQuestions) {
-                    if (totalScore > currentUser.getBestScore()) {
-                        currentUser.setBestScore(totalScore);
-                    }
-                    questionsAnswered = 0;
-                    totalScore = 0;
-                    JOptionPane.showMessageDialog(frame, "You finished all the questions! Your total score is: " + currentUser.getBestScore());
-                    showLoginScreen();
-                    return;
-                }
-                showChildScreen();
-            }
-        });
-        questionTimer.start();
-
-        JButton answerButton = new JButton("Answer");
-        answerButton.addActionListener(e -> {
-            questionTimer.stop();
-            int answer = Integer.parseInt(answerField.getText());
-
-            if (answer == a * b) {
-                totalScore += currentQuestionTime;
-            }
-
-            questionsAnswered++;
-            if (questionsAnswered == numQuestions) {
-                if (totalScore > currentUser.getBestScore()) {
-                    currentUser.setBestScore(totalScore);
-                }
-                questionsAnswered = 0;
-                totalScore = 0;
-                JOptionPane.showMessageDialog(frame, "You finished all the questions! Your total score is: " + currentUser.getBestScore());
-                showLoginScreen();
-                return;
-            }
-            showChildScreen();
-        });
-
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(e -> {
-            questionTimer.stop();
-            questionsAnswered = 0;
-            totalScore = 0;
-            showLoginScreen();
-        });
-
-        panel.add(questionLabel);
-        panel.add(answerField);
-        panel.add(timerLabel);
-        panel.add(scoreLabel);
-        panel.add(questionCounterLabel);
-        panel.add(answerButton);
-        panel.add(logoutButton);
-
-        frame.getContentPane().add(panel);
-        frame.revalidate();
-        frame.repaint();
+    public boolean checkChildAnswer(int a, int b, int answer) {
+        return a * b == answer;
     }
 
     public static void main(String[] args) {
