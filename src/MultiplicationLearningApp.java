@@ -36,8 +36,8 @@ public class MultiplicationLearningApp {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(255, 105, 180),  // Custom pink color
-                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                        0, 0, new Color(255, 0, 140),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 201, 255)); // Custom blue color
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -89,8 +89,8 @@ public class MultiplicationLearningApp {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(255, 105, 180),  // Custom pink color
-                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                        0, 0, new Color(255, 0, 140),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 201, 255)); // Custom blue color
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -150,8 +150,8 @@ public class MultiplicationLearningApp {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(255, 105, 180),  // Custom pink color
-                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                        0, 0, new Color(255, 0, 140),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 201, 255)); // Custom blue color
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -194,8 +194,8 @@ public class MultiplicationLearningApp {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(255, 105, 180),  // Custom pink color
-                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                        0, 0, new Color(255, 0, 140),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 201, 255)); // Custom blue color
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -264,13 +264,13 @@ public class MultiplicationLearningApp {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(255, 105, 180),  // Custom pink color
-                        getWidth(), getHeight(), new Color(0, 0, 255)); // Custom blue color
+                        0, 0, new Color(255, 0, 140),  // Custom pink color
+                        getWidth(), getHeight(), new Color(0, 201, 255)); // Custom blue color
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        panel.setLayout(new GridLayout(3, 2));
+        panel.setLayout(new GridLayout(4, 2));
 
         Random random = new Random();
         int a = random.nextInt(maxA + 1);
@@ -341,18 +341,27 @@ public class MultiplicationLearningApp {
             showLoginScreen();
         });
 
+        // 1st row: question number and time
+        panel.add(questionCounterLabel);
+        panel.add(timerLabel);
+
+        // 2nd row: question and answer field
         panel.add(questionLabel);
         panel.add(answerField);
-        panel.add(timerLabel);
-        panel.add(scoreLabel);
-        panel.add(questionCounterLabel);
+
+        // 3rd row: answer button and logout button
         panel.add(answerButton);
         panel.add(logoutButton);
 
-        frame.getContentPane().add(panel);
-        frame.revalidate();
-        frame.repaint();
+        // 4th row: Best score and current score
+        panel.add(scoreLabel);
+
+        frame.add(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
     }
+
+
     // public methods for testing
     public List<User> getUsers() {
         return users;
@@ -400,3 +409,4 @@ public class MultiplicationLearningApp {
         new MultiplicationLearningApp();
     }
 }
+
